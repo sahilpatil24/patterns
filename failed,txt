@@ -1,0 +1,53 @@
+//failed lc 3016 daily 31/07/26
+
+class Solution {
+
+    public int minimumPushes(String word) {
+        //7 20
+
+        int n = word.length();
+        //i will have to create a 2d array now
+        // char [][] = new char[9][4];
+        //why not use a hashmap - we can take the frequency but we have no way to get the index
+        //welll i think i found the solution
+        //why cant we just push just 1 till the first 8 characters and then once we find 
+        //more than 8 then we can just push 2 and so on
+        //and once the hashmap crosses the length of 26 then
+        int i = 0;
+        int count = 0;
+        int push = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        ArrayList<Character> unique = new ArrayList<>();
+        //we need to first put all the elements in the hashmap
+        //along with their frequency
+        //and then we have to sort it
+        //and then insert into the array list with the elements that have the most frequency
+        //7 59
+        while(i < n) {
+            char curr = word.charAt(i);
+            map.put(curr, map.getOrDefault(curr,0) + 1);
+            if(unique.contains(curr)) { i++; continue; }
+            else unique.add(curr);
+            i++;
+        }
+        Map<Character, Integer> map2 = new TreeMap<>(map);
+        System.out.println(map2);
+        i = 0;
+        while(i < n) {
+            char curr = word.charAt(i);
+            //i will just check the index of the character 
+            //if under 8 then push 1
+            //if under 16 then push 2 and so on
+            count = unique.indexOf(curr) + 1;
+            if(count > 24) push += 4;
+            else if(count > 16) push += 3;
+            else if(count > 8) push += 2;
+            else push += 1;
+            i++;
+        }
+        // return unique.get(word.charAt(0));
+
+        System.out.println(unique);
+        return push;
+    }
+}
